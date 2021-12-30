@@ -1,0 +1,26 @@
+from django.contrib import admin
+from django.urls import path  , include
+from django.conf.urls.static import static
+from . import settings
+from django.conf.urls import url
+from django.urls import re_path
+import re
+from urllib.parse import urlsplit
+from django.views.static import serve
+from django.conf import settings
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('' , include('store.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+
+
+    #REST FRAMEWORK URLS
+    path('api/store/', include('store.api.urls')),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+
